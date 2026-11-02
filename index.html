@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111827">
+<title>Djay | Absence Tracker</title>
+
+<style>
+:root {
+    --bg: #f4f6fb;
+    --card: #ffffff;
+    --text: #182235;
+    --muted: #778195;
+    --primary: #315ee8;
+    --primary-light: #edf1ff;
+    --red: #dc4141;
+    --red-light: #fff0f0;
+    --green: #16865b;
+    --green-light: #e9f8f0;
+    --orange: #bd770e;
+    --orange-light: #fff5df;
+    --border: #e7eaf0;
+    --radius: 16px;
+    --shadow: 0 5px 22px rgba(20,35,70,.06);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+button, input {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* LOGIN */
+
+.login-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 22px;
+    background: linear-gradient(145deg, #111827, #243b70);
+}
+
+.login-card {
+    background: white;
+    width: 100%;
+    max-width: 390px;
+    padding: 32px 25px;
+    border-radius: 22px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.2);
+}
+
+.login-logo {
+    width: 55px;
+    height: 55px;
+    background: var(--primary-light);
+    color: var(--primary);
+    display: grid;
+    place-items: center;
+    border-radius: 16px;
+    font-size: 27px;
+    margin-bottom: 22px;
+}
+
+.login-card h1 {
+    font-size: 26px;
+    margin-bottom: 7px;
+}
+
+.login-card > p {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 26px;
+}
+
+.field {
+    margin-bottom: 17px;
+}
+
+.field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 650;
+    margin-bottom: 7px;
+}
+
+.field input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    outline: none;
+    background: #fafbfe;
+    color: var(--text);
+}
+
+.field input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(49,94,232,.1);
+}
+
+.login-btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: var(--primary);
+    color: white;
+    font-weight: 700;
+    margin-top: 5px;
+}
+
+.login-btn:active {
+    transform: scale(.98);
+}
+
+.login-error {
+    color: var(--red);
+    font-size: 13px;
+    margin-top: 13px;
+    text-align: center;
+    min-height: 18px;
+}
+
+/* DASHBOARD */
+
+.dashboard {
+    max-width: 850px;
+    margin: auto;
+    padding: 22px 17px 45px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.header h1 {
+    font-size: 26px;
+    letter-spacing: -.6px;
+}
+
+.header p {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+.logout-btn {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 9px 13px;
+    border-radius: 9px;
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 650;
+}
+
+/* STATISTICS */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 11px;
+    margin-bottom: 17px;
+}
+
+.stat-card {
+    background: var(--card);
+    padding: 17px 13px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.stat-label {
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 650;
+    line-height: 1.4;
+}
+
+.stat-number {
+    font-size: 27px;
+    font-weight: 800;
+    margin-top: 7px;
+    letter-spacing: -.7px;
+}
+
+.stat-description {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 3px;
+}
+
+/* WARNING */
+
+.warning {
+    padding: 15px;
+    border-radius: 13px;
+    margin-bottom: 21px;
+    display: flex;
+    gap: 11px;
+    align-items: flex-start;
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.warning.normal {
+    background: var(--green-light);
+    color: var(--green);
+}
+
+.warning.caution {
+    background: var(--orange-light);
+    color: var(--orange);
+}
+
+.warning.danger {
+    background: var(--red-light);
+    color: var(--red);
+}
+
+.warning-icon {
+    font-size: 20px;
+}
+
+/* SUBJECTS */
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.section-heading h2 {
+    font-size: 17px;
+}
+
+.section-heading span {
+    font-size: 11px;
+    color: var(--muted);
+}
+
+.subject-list {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+}
+
+.subject-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.subject-header {
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    min-height: 76px;
+}
+
+.subject-header:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: -3px;
+}
+
+.subject-name {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.subject-subtitle {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 5px;
+}
+
+.subject-right {
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.count {
+    font-size: 23px;
+    font-weight: 800;
+}
+
+.count-label {
+    font-size: 10px;
+    color: var(--muted);
+}
+
+.progress {
+    height: 5px;
+    background: #edf0f5;
+    margin: 0 16px 14px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--primary);
+    border-radius: 20px;
+    transition: width .25s;
+}
+
+.progress-fill.warning-fill {
+    background: var(--orange);
+}
+
+.progress-fill.danger-fill {
+    background: var(--red);
+}
+
+/* EXPANDED SUBJECT */
+
+.subject-details {
+    border-top: 1px solid var(--border);
+    padding: 17px;
+    background: #fcfdff;
+}
+
+.subject-details h3 {
+    font-size: 15px;
+    margin-bottom: 4px;
+}
+
+.subject-details .description {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 15px;
+}
+
+.subject-info {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 14px;
+    border-radius: 11px;
+    margin-bottom: 14px;
+}
+
+.subject-info-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 12px;
+    padding: 5px 0;
+}
+
+.subject-info-row span:first-child {
+    color: var(--muted);
+}
+
+.subject-info-row strong {
+    text-align: right;
+}
+
+.subject-alert {
+    border-radius: 9px;
+    padding: 12px;
+    font-size: 12px;
+    line-height: 1.5;
+    margin-bottom: 14px;
+}
+
+.subject-alert.normal {
+    background: var(--green-light);
+    color: var(--green);
+}
+
+.subject-alert.caution {
+    background: var(--orange-light);
+    color: var(--orange);
+}
+
+.subject-alert.danger {
+    background: var(--red-light);
+    color: var(--red);
+}
+
+.action-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+    margin-bottom: 10px;
+}
+
+.action-btn {
+    padding: 13px 8px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 750;
+    font-size: 13px;
+}
+
+.absent-btn {
+    background: var(--red);
+    color: white;
+}
+
+.undo-btn {
+    background: #edf0f5;
+    color: #354052;
+}
+
+.save-btn {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 10px;
+    background: var(--primary);
+    color: white;
+    font-weight: 750;
+    font-size: 13px;
+}
+
+.action-btn:disabled {
+    opacity: .4;
+    cursor: not-allowed;
+}
+
+.action-btn:active, .save-btn:active {
+    transform: scale(.98);
+}
+
+.feedback {
+    font-size: 12px;
+    text-align: center;
+    margin-top: 11px;
+    color: var(--green);
+    min-height: 17px;
+}
+
+/* FOOTER */
+
+.footer {
+    text-align: center;
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 24px;
+    line-height: 1.7;
+}
+
+/* ACCESSIBILITY */
+
+button:focus-visible,
+input:focus-visible {
+    outline: 3px solid rgba(49,94,232,.35);
+    outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+    .dashboard {
+        padding: 19px 13px 35px;
+    }
+
+    .header h1 {
+        font-size: 23px;
+    }
+
+    .stats {
+        gap: 8px;
+    }
+
+    .stat-card {
+        padding: 13px 9px;
+    }
+
+    .stat-number {
+        font-size: 23px;
+    }
+
+    .stat-label {
+        font-size: 10px;
+    }
+
+    .subject-header {
+        padding: 14px;
+    }
+}
+
+@media (max-width: 340px) {
+    .stats {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+<section class="login-screen" id="loginScreen">
+    <div class="login-card">
+        <div class="login-logo">✓</div>
+
+        <h1>Welcome back</h1>
+        <p>Login to access your personal absence tracker.</p>
+
+        <form id="loginForm">
+
+            <div class="field">
+                <label for="username">Username</label>
+                <input
+                    type="text"
+                    id="username"
+                    placeholder="Enter username"
+                    autocomplete="username"
+                    required
+                >
+            </div>
+
+            <div class="field">
+                <label for="password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter password"
+                    autocomplete="current-password"
+                    required
+                >
+            </div>
+
+            <button type="submit" class="login-btn">
+                Login →
+            </button>
+
+            <div class="login-error" id="loginError" role="alert"></div>
+
+        </form>
+    </div>
+</section>
+<main class="dashboard hidden" id="dashboard">
+
+    <header class="header">
+        <div>
+            <h1>Hello, Djay 👋</h1>
+            <p>Your personal attendance dashboard</p>
+        </div>
+
+        <button class="logout-btn" id="logoutBtn">
+            Logout ↗
+        </button>
+    </header>
+    <section class="stats" aria-label="Overall absence statistics">
+
+        <div class="stat-card">
+            <div class="stat-label">TOTAL ABSENCES</div>
+            <div class="stat-number" id="totalAbsences">0</div>
+            <div class="stat-description">Across all subjects</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-label">ALLOWANCE</div>
+            <div class="stat-number">8</div>
+            <div class="stat-description">Per subject</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-label">TOTAL REMAINING</div>
+            <div class="stat-number" id="totalRemaining">64</div>
+            <div class="stat-description">Across 8 subjects</div>
+        </div>
+    </section>
+    <section class="warning normal" id="overallWarning" role="status" aria-live="polite">
+        <span class="warning-icon">✓</span>
+        <div id="overallWarningText">
+            You are within your absence allowance. Keep it up!
+        </div>
+    </section>
+
+    <section>
+
+        <div class="section-heading">
+            <h2>Your Subjects</h2>
+            <span>Tap a subject to manage</span>
+        </div>
+
+        <div class="subject-list" id="subjectList"></div>
+
+    </section>
+
+
+    <footer class="footer">
+        <p>Absence Tracker · Djay</p>
+        <p>Your attendance data is saved locally on this device.</p>
+    </footer>
+
+</main>
+
+
+<script>
+/*
+    These credentials are hard-coded because this is a simple,
+    offline, personal application.
+
+*/
+
+const VALID_USERNAME = "alok_c6";
+const VALID_PASSWORD = "alokc6";
+
+const STORAGE_KEY = "djay_absence_tracker_v1";
+
+const ABSENCE_LIMIT = 8;
+
+const SUBJECTS = [
+    "Software Engineering and Project Management",
+    "Computer Network",
+    "Theory of Computation",
+    "Web Technology",
+    "Unix Programming",
+    "Mini Project",
+    "Research Methodology",
+    "Environment Studies"
+];
+
+let absenceData = {};
+let selectedSubject = null;
+
+
+// INITIALISE DATA
+
+function initializeData() {
+
+    SUBJECTS.forEach(subject => {
+
+        if (
+            !absenceData[subject] ||
+            typeof absenceData[subject].count !== "number"
+        ) {
+            absenceData[subject] = {
+                count: 0,
+                history: []
+            };
+        }
+
+        if (!Array.isArray(absenceData[subject].history)) {
+            absenceData[subject].history = [];
+        }
+
+        // Keep history consistent with the saved count.
+        absenceData[subject].count = Math.max(
+            0,
+            Math.min(ABSENCE_LIMIT, Math.floor(absenceData[subject].count))
+        );
+
+        absenceData[subject].history =
+            absenceData[subject].history.slice(0, absenceData[subject].count);
+    });
+
+}
+
+
+// LOAD SAVED DATA
+
+function loadData() {
+
+    try {
+
+        const saved = localStorage.getItem(STORAGE_KEY);
+
+        if (saved) {
+            const parsed = JSON.parse(saved);
+
+            if (parsed && typeof parsed === "object") {
+                absenceData = parsed;
+            }
+        }
+
+    } catch (error) {
+
+        absenceData = {};
+
+        console.error("Could not load saved data:", error);
+
+    }
+
+    initializeData();
+
+}
+
+
+// SAVE DATA
+
+function saveData() {
+
+    try {
+
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(absenceData)
+        );
+
+        return true;
+
+    } catch (error) {
+
+        console.error("Could not save data:", error);
+
+        alert(
+            "Unable to save your data. Please check your browser storage settings."
+        );
+
+        return false;
+
+    }
+
+}
+
+
+// LOGIN
+
+document.getElementById("loginForm").addEventListener("submit", function(e) {
+
+    e.preventDefault();
+
+    const username = document.getElementById("username").value.trim();
+
+    const password = document.getElementById("password").value;
+
+    const errorElement = document.getElementById("loginError");
+
+    if (
+        username === VALID_USERNAME &&
+        password === VALID_PASSWORD
+    ) {
+
+        errorElement.textContent = "";
+
+        loadData();
+
+        document.getElementById("loginScreen").classList.add("hidden");
+
+        document.getElementById("dashboard").classList.remove("hidden");
+
+        renderDashboard();
+
+    } else {
+
+        errorElement.textContent =
+            "Incorrect username or password. Please try again.";
+
+    }
+
+});
+
+
+// LOGOUT
+
+document.getElementById("logoutBtn").addEventListener("click", function() {
+
+    selectedSubject = null;
+
+    document.getElementById("password").value = "";
+
+    document.getElementById("dashboard").classList.add("hidden");
+
+    document.getElementById("loginScreen").classList.remove("hidden");
+
+});
+
+
+// TOTAL ABSENCES
+
+function getTotalAbsences() {
+
+    return SUBJECTS.reduce((total, subject) => {
+
+        return total + absenceData[subject].count;
+
+    }, 0);
+
+}
+
+
+// SUBJECT REMAINING
+
+function getRemaining(subject) {
+
+    return Math.max(
+        0,
+        ABSENCE_LIMIT - absenceData[subject].count
+    );
+
+}
+
+
+// WARNING INFORMATION
+
+function getWarning(subject) {
+
+    const count = absenceData[subject].count;
+
+    const remaining = getRemaining(subject);
+
+    if (count >= ABSENCE_LIMIT) {
+
+        return {
+            type: "danger",
+            icon: "⛔",
+            message:
+                "Allowance used up! You have reached 8 absences for this subject. No more absences are available."
+        };
+
+    }
+
+    if (count >= 6) {
+
+        return {
+            type: "danger",
+            icon: "⚠️",
+            message:
+                "Warning! You have " + remaining +
+                " absence" + (remaining === 1 ? "" : "s") +
+                " left for this subject."
+        };
+
+    }
+
+    if (count >= 4) {
+
+        return {
+            type: "caution",
+            icon: "⚠️",
+            message:
+                "Be careful! You have " + remaining +
+                " absences remaining for this subject."
+        };
+
+    }
+
+    return {
+        type: "normal",
+        icon: "✓",
+        message:
+            "You have " + remaining +
+            " absences remaining for this subject. Stay within your allowance!"
+    };
+
+}
+
+
+// UPDATE OVERALL DASHBOARD
+
+function updateStatistics() {
+
+    const total = getTotalAbsences();
+
+    const totalAllowance = SUBJECTS.length * ABSENCE_LIMIT;
+
+    const remaining = totalAllowance - total;
+
+    document.getElementById("totalAbsences").textContent = total;
+
+    document.getElementById("totalRemaining").textContent = remaining;
+
+    const warning = document.getElementById("overallWarning");
+
+    const warningText = document.getElementById("overallWarningText");
+
+    warning.className = "warning";
+
+    if (remaining === 0) {
+
+        warning.classList.add("danger");
+
+        warning.querySelector(".warning-icon").textContent = "⛔";
+
+        warningText.textContent =
+            "All subject absence allowances have been used. You have no absences remaining.";
+
+    } else if (
+        SUBJECTS.some(subject => absenceData[subject].count >= 6)
+    ) {
+
+        warning.classList.add("danger");
+
+        warning.querySelector(".warning-icon").textContent = "⚠️";
+
+        const warningSubjects = SUBJECTS.filter(
+            subject => absenceData[subject].count >= 6
+        );
+
+        warningText.textContent =
+            "Attention! " + warningSubjects.length +
+            (warningSubjects.length === 1 ? " subject has" : " subjects have") +
+            " reached 6 or more absences. Check those subjects below.";
+
+    } else {
+
+        warning.classList.add("normal");
+
+        warning.querySelector(".warning-icon").textContent = "✓";
+
+        warningText.textContent =
+            "You have used " + total + " out of " +
+            totalAllowance + " total available absences. " +
+            remaining + " remain across all subjects.";
+    }
+
+}
+
+
+// RENDER SUBJECTS
+
+function renderDashboard() {
+
+    updateStatistics();
+
+    const container = document.getElementById("subjectList");
+
+    container.innerHTML = "";
+
+    SUBJECTS.forEach((subject, index) => {
+
+        const count = absenceData[subject].count;
+
+        const remaining = getRemaining(subject);
+
+        const progress = (count / ABSENCE_LIMIT) * 100;
+
+        const warning = getWarning(subject);
+
+        const isOpen = selectedSubject === subject;
+
+        const card = document.createElement("article");
+
+        card.className = "subject-card";
+
+        let progressClass = "";
+
+        if (count >= 8) {
+            progressClass = "danger-fill";
+        } else if (count >= 6) {
+            progressClass = "warning-fill";
+        }
+
+        card.innerHTML = `
+
+            <div
+                class="subject-header"
+                role="button"
+                tabindex="0"
+                aria-expanded="${isOpen}"
+                aria-controls="subject-details-${index}"
+                data-subject="${index}"
+            >
+
+                <div>
+                    <div class="subject-name">${escapeHTML(subject)}</div>
+
+                    <div class="subject-subtitle">
+                        ${count >= 8 ? "Allowance completed" :
+                          count >= 6 ? "Near absence limit" :
+                          "Tap to manage absences"}
+                    </div>
+                </div>
+
+                <div class="subject-right">
+
+                    <div class="count">${count}/8</div>
+
+                    <div class="count-label">Absences</div>
+
+                </div>
+
+            </div>
+
+            <div class="progress">
+                <div
+                    class="progress-fill ${progressClass}"
+                    style="width:${progress}%"
+                ></div>
+            </div>
+
+            ${isOpen ? `
+
+                <div class="subject-details" id="subject-details-${index}">
+
+                    <h3>${escapeHTML(subject)}</h3>
+
+                    <p class="description">
+                        Manage your absence count for this subject.
+                    </p>
+
+                    <div class="subject-info">
+
+                        <div class="subject-info-row">
+                            <span>Total absences</span>
+                            <strong>${count} / 8</strong>
+                        </div>
+
+                        <div class="subject-info-row">
+                            <span>Absences remaining</span>
+                            <strong>${remaining}</strong>
+                        </div>
+
+                        <div class="subject-info-row">
+                            <span>Allowance status</span>
+                            <strong>${remaining === 0 ? "Completed" : "Available"}</strong>
+                        </div>
+
+                    </div>
+
+                    <div class="subject-alert ${warning.type}" role="status" aria-live="polite">
+
+                        ${warning.icon} ${warning.message}
+
+                    </div>
+
+                    <div class="action-buttons">
+
+                        <button
+                            class="action-btn absent-btn"
+                            data-action="absent"
+                            ${count >= ABSENCE_LIMIT ? "disabled" : ""}
+                        >
+                            + Absent
+                        </button>
+
+                        <button
+                            class="action-btn undo-btn"
+                            data-action="undo"
+                            ${count === 0 ? "disabled" : ""}
+                        >
+                            ↶ Undo
+                        </button>
+
+                    </div>
+
+                    <button
+                        class="save-btn"
+                        data-action="save"
+                    >
+                        ✓ Save
+                    </button>
+
+                    <div class="feedback" id="feedback-${index}" aria-live="polite"></div>
+
+                </div>
+
+            ` : ""}
+
+        `;
+
+        container.appendChild(card);
+
+    });
+
+}
+
+
+// ESCAPE HTML
+
+function escapeHTML(value) {
+
+    return String(value).replace(/[&<>"']/g, function(character) {
+
+        return {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+        }[character];
+
+    });
+
+}
+
+
+// SELECT SUBJECT
+
+document.getElementById("subjectList").addEventListener("click", function(e) {
+
+    const header = e.target.closest(".subject-header");
+
+    if (header) {
+
+        const index = Number(header.dataset.subject);
+
+        const subject = SUBJECTS[index];
+
+        selectedSubject =
+            selectedSubject === subject ? null : subject;
+
+        renderDashboard();
+
+        return;
+
+    }
+
+    const actionButton = e.target.closest("[data-action]");
+
+    if (!actionButton) return;
+
+    const card = actionButton.closest(".subject-card");
+
+    const headerElement = card.querySelector(".subject-header");
+
+    const subjectIndex = Number(headerElement.dataset.subject);
+
+    const subject = SUBJECTS[subjectIndex];
+
+    const action = actionButton.dataset.action;
+
+    const subjectData = absenceData[subject];
+
+    const feedback = document.getElementById(
+        "feedback-" + subjectIndex
+    );
+
+
+    // ADD ABSENCE
+
+    if (action === "absent") {
+
+        if (subjectData.count >= ABSENCE_LIMIT) {
+
+            feedback.textContent =
+                "Allowance reached. No more absences can be added.";
+
+            return;
+
+        }
+
+        subjectData.count++;
+
+        subjectData.history.push({
+            date: new Date().toISOString()
+        });
+
+        if (saveData()) {
+
+            feedback.textContent =
+                "Absence recorded successfully. ✓";
+
+            renderDashboard();
+
+            const newFeedback = document.getElementById(
+                "feedback-" + subjectIndex
+            );
+
+            if (newFeedback) {
+                newFeedback.textContent =
+                    "Absence recorded successfully. ✓";
+            }
+
+        }
+
+    }
+
+
+    // UNDO LAST ABSENCE
+
+    else if (action === "undo") {
+
+        if (subjectData.count <= 0) {
+
+            feedback.textContent = "Nothing to undo.";
+
+            return;
+
+        }
+
+        subjectData.count--;
+
+        subjectData.history.pop();
+
+        if (saveData()) {
+
+            renderDashboard();
+
+            const newFeedback = document.getElementById(
+                "feedback-" + subjectIndex
+            );
+
+            if (newFeedback) {
+                newFeedback.textContent =
+                    "Last absence undone successfully. ✓";
+            }
+
+        }
+
+    }
+
+
+    // SAVE
+
+    else if (action === "save") {
+
+        if (saveData()) {
+
+            feedback.textContent =
+                "Your attendance changes have been saved. ✓";
+
+        }
+
+    }
+
+});
+
+
+// KEYBOARD ACCESSIBILITY FOR SUBJECT HEADERS
+
+document.getElementById("subjectList").addEventListener("keydown", function(e) {
+
+    if (
+        (e.key === "Enter" || e.key === " ") &&
+        e.target.classList.contains("subject-header")
+    ) {
+
+        e.preventDefault();
+
+        e.target.click();
+
+    }
+
+});
+
+
+</script>
+
+</body>
+</html>
